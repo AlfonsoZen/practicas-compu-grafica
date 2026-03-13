@@ -94,10 +94,12 @@ int main( )
     Shader shader( "Shader/modelLoading.vs", "Shader/modelLoading.frag" );
     
     // Load models
+    Model dog((char*)"Models/PERRO/RedDog.obj");
+    Model cat((char*)"Models/GATO/miGato.obj");
     glm::mat4 projection = glm::perspective( camera.GetZoom( ), ( float )SCREEN_WIDTH/( float )SCREEN_HEIGHT, 0.1f, 100.0f );
     
   
-
+    float giroPupu = 0.0f;
     // Game loop
     while (!glfwWindowShouldClose(window))
     {
@@ -122,8 +124,30 @@ int main( )
 
         // Draw the loaded model
         glm::mat4 model(1);
+        model = glm::rotate(model, glm::radians(giroPupu++), glm::vec3(0.0f, 1.0f, 0.0f));
         glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
-        
+        dog.Draw(shader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        dog.Draw(shader);
+
+        model = glm::mat4(1);
+        model = glm::translate(model, glm::vec3(2.0f, -1.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        cat.Draw(shader);
+
+        model = glm::mat4(1);
+        //model = glm::translate(model, glm::vec3(0.0f, 0.0f, 2.0f));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        glUniformMatrix4fv(glGetUniformLocation(shader.Program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+        cat.Draw(shader);
+
+       
+       
 
         // Swap the buffers
         glfwSwapBuffers( window );
