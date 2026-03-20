@@ -102,11 +102,40 @@ int main()
 	{
 		// Positions            // Colors              // Texture Coords
 		-0.5f, -0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,0.0f,
+		0.5f, -0.5f, 0.0f,	   1.0f, 1.0f,1.0f,		2.5f,0.0f,
+		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    2.5f,5.0f,
+		-0.5f,  0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,5.0f,
+	};
+
+	GLfloat vertices2[] =
+	{
+		// Positions            // Colors              // Texture Coords
+		-0.5f, -0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,0.0f,
+		0.5f, -0.5f, 0.0f,	   1.0f, 1.0f,1.0f,		4.0f,0.0f,
+		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    4.0f,10.0f,
+		-0.5f,  0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,10.0f,
+	};
+
+	GLfloat vertices2[] =
+	{
+		// Positions            // Colors              // Texture Coords
+		// Mostrar el cuadrante 1
+		-0.5f, -0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.5f,0.0f,
 		0.5f, -0.5f, 0.0f,	   1.0f, 1.0f,1.0f,		1.0f,0.0f,
-		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    1.0f,1.0f,
+		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    1.0f,0.5f,
+		-0.5f,  0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.5f,0.5f,
+
+		// Mostrar el cuadrante 2
+		-0.5f, -0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,0.5f,
+		0.5f, -0.5f, 0.0f,	   1.0f, 1.0f,1.0f,		0.5f,0.5f,
+		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    0.5f,1.0f,
 		-0.5f,  0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.0f,1.0f,
 
-		
+		// Mostrar el cuadrante 'central'
+		-0.5f, -0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.25f,0.25f,
+		0.5f, -0.5f, 0.0f,	   1.0f, 1.0f,1.0f,		0.75f,0.25f,
+		0.5f,  0.5f, 0.0f,     1.0f, 1.0f,1.0f,	    0.75f,0.75f,
+		-0.5f,  0.5f, 0.0f,    1.0f, 1.0f,1.0f,		0.25f,0.75f,
 	};
 
 	GLuint indices[] =
@@ -152,13 +181,13 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 	// Diffuse map
-	image = stbi_load("images/checker_Tex.png", &textureWidth, &textureHeight, &nrChannels,0);
+	image = stbi_load("images/window.png", &textureWidth, &textureHeight, &nrChannels,0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	if (image)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureWidth, textureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureWidth, textureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
