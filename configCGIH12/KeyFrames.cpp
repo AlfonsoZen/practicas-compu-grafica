@@ -102,6 +102,7 @@ glm::vec3 Light1 = glm::vec3(0);
 //Anim
 float rotBall = 0.0f;
 float rotDog = 0.0f;
+float rotHead = 0.0f;
 int dogAnim = 0;
 float FLegs = 0.0f;
 float RLegs = 0.0f;
@@ -120,6 +121,8 @@ typedef struct _frame {
 	
 	float rotDog;
 	float rotDogInc;
+	float rotHead;
+	float rotHeadInc;
 	float dogPosX;
 	float dogPosY;
 	float dogPosZ;
@@ -145,6 +148,7 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].dogPosZ = dogPosZ;
 
 	KeyFrame[FrameIndex].rotDog = rotDog;
+	KeyFrame[FrameIndex].rotHead = rotHead;
 
 
 	FrameIndex++;
@@ -157,6 +161,7 @@ void resetElements(void)
 	dogPosZ = KeyFrame[0].dogPosZ;
 
 	rotDog = KeyFrame[0].rotDog;
+	rotHead = KeyFrame[0].rotHead;
 
 }
 void interpolation(void)
@@ -167,6 +172,7 @@ void interpolation(void)
 	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].dogPosZ - KeyFrame[playIndex].dogPosZ) / i_max_steps;
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
+	KeyFrame[playIndex].rotHeadInc = (KeyFrame[playIndex + 1].rotHead - KeyFrame[playIndex].rotHead) / i_max_steps;
 
 }
 
@@ -250,6 +256,8 @@ int main()
 		KeyFrame[i].incZ = 0;
 		KeyFrame[i].rotDog = 0;
 		KeyFrame[i].rotDogInc = 0;
+		KeyFrame[i].rotHead = 0;
+		KeyFrame[i].rotHeadInc = 0;
 	}
 
 
@@ -389,7 +397,7 @@ int main()
 		//Head
 		model = modelTemp;
 		model = glm::translate(model, glm::vec3(0.0f, 0.093f, 0.208f));
-		model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 0.0f, 1.0f));
+		model = glm::rotate(model, glm::radians(rotHead), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		HeadDog.Draw(lightingShader);
 		//Tail 
@@ -514,6 +522,16 @@ void DoMovement()
 	if (keys[GLFW_KEY_J])
 	{
 		dogPosX += 0.01;
+	}
+
+	if (keys[GLFW_KEY_4])
+	{
+		rotHead += 1;
+	}
+
+	if (keys[GLFW_KEY_5])
+	{
+		rotHead -= 1;
 	}
 
 	// Camera controls
@@ -669,6 +687,7 @@ void Animation() {
 			dogPosZ += KeyFrame[playIndex].incZ;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
+			rotHead += KeyFrame[playIndex].rotHeadInc;
 
 			i_curr_steps++;
 		}
